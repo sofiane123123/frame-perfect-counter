@@ -16,7 +16,7 @@ class $modify(MyPlayLayer, PlayLayer) {
         label->setAnchorPoint({0.0f, 0.0f});
         label->setScale(0.4f);
         label->setOpacity(200);
-        label->setTag(5001); // Safe numeric identifier tag
+        label->setTag(5001);
         
         this->addChild(label, 999);
         return true;
