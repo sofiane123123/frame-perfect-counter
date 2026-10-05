@@ -16,7 +16,7 @@ class $modify(MyPlayLayer, PlayLayer) {
         label->setAnchorPoint({0.0f, 0.0f});
         label->setScale(0.4f);
         label->setOpacity(200);
-        label->setID("jump-counter-label"_spr);
+        label->setTag(5001); // Safe numeric identifier tag
         
         this->addChild(label, 999);
         return true;
@@ -26,7 +26,7 @@ class $modify(MyPlayLayer, PlayLayer) {
         PlayLayer::resetLevel();
         g_jumpCounter = 0;
         
-        if (auto label = typeinfo_cast<CCLabelBMFont*>(this->getChildByID("jump-counter-label"_spr))) {
+        if (auto label = static_cast<CCLabelBMFont*>(this->getChildByTag(5001))) {
             label->setString("Jumps Tracked: 0");
         }
     }
@@ -37,7 +37,7 @@ class $modify(MyPlayer, PlayerObject) {
         PlayerObject::pushButton(btn);
         
         if (auto playLayer = PlayLayer::get()) {
-            if (auto label = typeinfo_cast<CCLabelBMFont*>(playLayer->getChildByID("jump-counter-label"_spr))) {
+            if (auto label = static_cast<CCLabelBMFont*>(playLayer->getChildByTag(5001))) {
                 g_jumpCounter++;
                 std::string outputText = "Jumps Tracked: " + std::to_string(g_jumpCounter);
                 label->setString(outputText.c_str());
