@@ -10,7 +10,7 @@
 	"name": "True Frame Perfect Analyzer",
 	"version": "1.0.0",
 	"developer": "sofianegg",
-	"description": "Calculates precise frame intervals and counts physics engine steps for layout jump trajectories.",
+	"description": "Calculates precise frame intervals and counts jump trajectories.",
 	"dependencies": {
 		"geode.node-ids": ">=v1.23.3"
 	}
