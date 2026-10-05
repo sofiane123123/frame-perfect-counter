@@ -5,28 +5,29 @@
 
 using namespace geode::prelude;
 
-CCLabelBMFont* g_framePerfectLabel = nullptr;
 int g_jumpCounter = 0;
 
 class $modify(MyPlayLayer, PlayLayer) {
     bool init(GJGameLevel* level, bool useReplay, bool dontRun) {
         if (!PlayLayer::init(level, useReplay, dontRun)) return false;
 
-        g_framePerfectLabel = CCLabelBMFont::create("Jumps Tracked: 0", "bigFont.fnt");
-        g_framePerfectLabel->setPosition({15, 15});
-        g_framePerfectLabel->setAnchorPoint({0.0f, 0.0f});
-        g_framePerfectLabel->setScale(0.4f);
-        g_framePerfectLabel->setOpacity(200);
+        auto label = CCLabelBMFont::create("Jumps Tracked: 0", "bigFont.fnt");
+        label->setPosition({15, 15});
+        label->setAnchorPoint({0.0f, 0.0f});
+        label->setScale(0.4f);
+        label->setOpacity(200);
+        label->setID("jump-counter-label"_spr);
         
-        this->addChild(g_framePerfectLabel, 999);
+        this->addChild(label, 999);
         return true;
     }
 
     void resetLevel() {
         PlayLayer::resetLevel();
         g_jumpCounter = 0;
-        if (g_framePerfectLabel) {
-            g_framePerfectLabel->setString("Jumps Tracked: 0");
+        
+        if (auto label = typeinfo_cast<CCLabelBMFont*>(this->getChildByID("jump-counter-label"_spr))) {
+            label->setString("Jumps Tracked: 0");
         }
     }
 };
@@ -35,10 +36,12 @@ class $modify(MyPlayer, PlayerObject) {
     void pushButton(PlayerButton btn) {
         PlayerObject::pushButton(btn);
         
-        if (g_framePerfectLabel) {
-            g_jumpCounter++;
-            std::string outputText = "Jumps Tracked: " + std::to_string(g_jumpCounter);
-            g_framePerfectLabel->setString(outputText.c_str());
+        if (auto playLayer = PlayLayer::get()) {
+            if (auto label = typeinfo_cast<CCLabelBMFont*>(playLayer->getChildByID("jump-counter-label"_spr))) {
+                g_jumpCounter++;
+                std::string outputText = "Jumps Tracked: " + std::to_string(g_jumpCounter);
+                label->setString(outputText.c_str());
+            }
         }
     }
 };
