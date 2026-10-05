@@ -6,6 +6,7 @@
 using namespace geode::prelude;
 
 CCLabelBMFont* g_framePerfectLabel = nullptr;
+int g_localPhysicsStepCounter = 0;
 
 class $modify(MyPlayLayer, PlayLayer) {
     bool init(GJGameLevel* level, bool useReplay, bool dontRun) {
@@ -23,9 +24,16 @@ class $modify(MyPlayLayer, PlayLayer) {
 
     void resetLevel() {
         PlayLayer::resetLevel();
+        g_localPhysicsStepCounter = 0;
         if (g_framePerfectLabel) {
             g_framePerfectLabel->setString("FP Window: Calculating...");
         }
+    }
+
+    void update(float dt) {
+        PlayLayer::update(dt);
+        // Safely increments each individual internal physics frame calculation tick loop
+        g_localPhysicsStepCounter++;
     }
 };
 
@@ -33,11 +41,8 @@ class $modify(MyPlayer, PlayerObject) {
     void pushButton(PlayerButton btn) {
         PlayerObject::pushButton(btn);
         
-        auto playLayer = PlayLayer::get();
-        if (playLayer && g_framePerfectLabel) {
-            // Updated syntax mapping structure for modern Geode v4 state tracking
-            int currentStep = playLayer->m_fields->m_gameState.m_currentPhysicsStep;
-            std::string outputText = "FP Steps: " + std::to_string(currentStep);
+        if (g_framePerfectLabel) {
+            std::string outputText = "FP Steps: " + std::to_string(g_localPhysicsStepCounter);
             g_framePerfectLabel->setString(outputText.c_str());
         }
     }
