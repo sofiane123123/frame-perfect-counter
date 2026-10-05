@@ -35,7 +35,8 @@ class $modify(MyPlayer, PlayerObject) {
         
         auto playLayer = PlayLayer::get();
         if (playLayer && g_framePerfectLabel) {
-            int currentStep = playLayer->m_gameState.m_currentPhysicsStep;
+            // Updated syntax mapping structure for modern Geode v4 state tracking
+            int currentStep = playLayer->m_fields->m_gameState.m_currentPhysicsStep;
             std::string outputText = "FP Steps: " + std::to_string(currentStep);
             g_framePerfectLabel->setString(outputText.c_str());
         }
