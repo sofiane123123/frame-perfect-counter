@@ -6,7 +6,7 @@
 		"mac": "2.2081",
 		"ios": "2.2081"
 	},
-	"id": "sofianegg.frame_counter",
+	"id": "sofianegg.frame_perfect_counter",
 	"name": "True Frame Perfect Analyzer",
 	"version": "1.0.0",
 	"developer": "sofianegg",
