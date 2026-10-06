@@ -14,7 +14,6 @@ jobs:
         config:
           - name: Android64
             os: ubuntu-latest
-            target: Android64
 
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
@@ -22,15 +21,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Geode CLI
-        run: |
-          mkdir -p $HOME/.local/bin
-          wget https://github.com
-          unzip geode-cli-linux.zip -d $HOME/.local/bin
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-      - name: Build Mod
-        uses: geode-sdk/build-geode-mod@main
+      - name: Build Geode Mod
+        uses: geode-sdk/build-geode-mod@v3
         with:
-          target: ${{ matrix.config.target }}
+          target: Android64
+          combine: false
           
