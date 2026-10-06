@@ -24,6 +24,7 @@ jobs:
 
       - name: Install Geode CLI
         run: |
+          mkdir -p $HOME/.local/bin
           wget https://github.com
           unzip geode-cli-linux.zip -d $HOME/.local/bin
           echo "$HOME/.local/bin" >> $GITHUB_PATH
