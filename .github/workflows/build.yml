@@ -19,5 +19,5 @@ jobs:
         with:
           target: Android64
           sdk: nightly
-          combine: false
+          cli: nightly
           
