@@ -1,10 +1,10 @@
 {
-	"geode": "3.0.0",
+	"geode": "4.0.0-alpha.1",
 	"gd": {
-		"win": "2.2074",
-		"android": "2.2074",
-		"mac": "2.2074",
-		"ios": "2.2074"
+		"win": "2.2081",
+		"android": "2.2081",
+		"mac": "2.2081",
+		"ios": "2.2081"
 	},
 	"id": "sofianegg.frame_perfect_counter",
 	"name": "True Frame Perfect Analyzer",
@@ -12,6 +12,6 @@
 	"developer": "sofianegg",
 	"description": "Calculates precise frame intervals and counts jump trajectories.",
 	"dependencies": {
-		"geode.node-ids": ">=v1.0.0"
+		"geode.node-ids": ">=v1.23.3"
 	}
 }
