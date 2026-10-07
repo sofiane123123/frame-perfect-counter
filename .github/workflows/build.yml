@@ -8,23 +8,41 @@ on:
 
 jobs:
   build:
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-          - name: Android64
-            os: ubuntu-latest
-
-    name: ${{ matrix.config.name }}
-    runs-on: ${{ matrix.config.os }}
+    name: Android64 Build
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build Geode Mod
-        uses: geode-sdk/build-geode-mod@main
+      - name: Set up Android NDK
+        uses: nwtgck/actions-setup-android-ndk@v1
         with:
-          target: Android64
-          sdk: nightly
-          combine: false
+          ndk-version: r26b
+
+      - name: Install Geode CLI
+        run: |
+          mkdir -p $HOME/.local/bin
+          curl -sSL https://github.com -o geode-cli.zip
+          unzip geode-cli.zip -d $HOME/.local/bin
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Configure Geode SDK
+        run: |
+          geode sdk install-binaries nightly
+          geode profiles add default
+
+      - name: Run CMake and Build Mod
+        run: |
+          cmake -B build \
+            -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_ROOT/build/cmake/android.toolchain.cmake \
+            -DANDROID_ABI=arm64-v8a \
+            -DANDROID_PLATFORM=android-30 \
+            -DGEODE_TARGET_PLATFORM=android64
+          cmake --build build --config Release
+
+      - name: Upload Mod Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frame-perfect-counter-android
+          path: build/*.geode
           
