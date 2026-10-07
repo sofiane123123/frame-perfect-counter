@@ -25,5 +25,6 @@ jobs:
         uses: geode-sdk/build-geode-mod@main
         with:
           target: Android64
+          sdk: nightly
           combine: false
           
