@@ -5,6 +5,6 @@ project(frame_perfect_counter)
 find_package(Geode REQUIRED)
 
 add_geode_mod(
-    frame_perfect_counter
+    sofianegg.frame_perfect_counter
     src/main.cpp
 )
